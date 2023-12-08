@@ -6,7 +6,8 @@
 enum TokenType {
     _return,
     int_lit,
-    semi
+    semi,
+    _fail
 };
 
 struct Token {
@@ -32,32 +33,40 @@ std::vector<Token> Tokenize(const std::string str) {
     std::vector<Token> Tokens;
 
     for(int i = 0; i <= str.length(); ++i) {
-        // Semicolen
-        if(str.substr(i, 1) == ";") {
+        if(str.substr(i, 1) == ";") {                    // Semicolen
             Token token = {semi, ";"};
             Tokens.insert(Tokens.end(), 1, token);
-        }
-
-        // Return
-        if(str.substr(i, 7) == "return ") {
+        } else if(str.substr(i, 7) == "return ") {       // Return
+            i+=6;
             Token token = {_return, "return "};
             Tokens.insert(Tokens.end(), 1, token);
-        }
-
-        // Numbers
-        if(std::isdigit(str[i])) {
-            std::string Value;
-            while(i < str.size() && (std::isdigit(str[i]) || str[i] == '.')) {
-                Value += str[i];
-                ++i;
-            }
-            --i;
-
-            Token token = {int_lit, Value};
+        } else if(std::isdigit(str[i])) {                // Numbers
+            Token token = {int_lit, str.substr(i, 1)};
             Tokens.push_back(token);
+        } else if(std::isspace(str[i])) {
+            continue;
+        } else if(std::isalpha(str[i])) {
+            continue;
         }
     }
     return Tokens;
+}
+
+std::string JamToC(std::vector<Token> Tokens) {
+    std::string Output = "int main(void) {\n";
+
+    for(int i = 0; i < Tokens.size(); ++i) {
+        if(Tokens[i].type == _return) {
+            Output += "return ";
+        } else if(Tokens[i].type == semi) {
+            Output += ";\n";
+        } else if(Tokens[i].type == int_lit) {
+            Output += Tokens[i].value;
+        }
+    }
+    Output += "\n}";
+
+    return Output;
 }
 
 int main(int argc, char* argv[]) {
@@ -88,6 +97,18 @@ int main(int argc, char* argv[]) {
     for(int i = 0; i < Tokens.size(); ++i) {
         std::cout << Tokens[i].type << "\n" << Tokens[i].value << "\n\n";
     }
-    
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////// To get something that i can see i am going to convert the tokens into c without doing the rest ///////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    // Jam to C
+    std::string Output = JamToC(Tokens);
+
+    // Create File
+    std::ofstream File("output.c");
+    File << Output;
+    File.close();
+
     return EXIT_SUCCESS;
 }
