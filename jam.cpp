@@ -1,6 +1,18 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <vector>
+
+enum TokenType {
+    _return,
+    int_lit,
+    semi
+};
+
+struct Token {
+    TokenType type;
+    std::string value;
+};
 
 bool CheckIfExtension(std::string::size_type n, std::string const& s, int Length) {
     if(std::string::npos == n) {
@@ -16,10 +28,42 @@ bool CheckIfExtension(std::string::size_type n, std::string const& s, int Length
     }
 }
 
+std::vector<Token> Tokenize(const std::string str) {
+    std::vector<Token> Tokens;
+
+    for(int i = 0; i <= str.length(); ++i) {
+        // Semicolen
+        if(str.substr(i, 1) == ";") {
+            Token token = {semi, ";"};
+            Tokens.insert(Tokens.end(), 1, token);
+        }
+
+        // Return
+        if(str.substr(i, 7) == "return ") {
+            Token token = {_return, "return "};
+            Tokens.insert(Tokens.end(), 1, token);
+        }
+
+        // Numbers
+        if(std::isdigit(str[i])) {
+            std::string Value;
+            while(i < str.size() && (std::isdigit(str[i]) || str[i] == '.')) {
+                Value += str[i];
+                ++i;
+            }
+            --i;
+
+            Token token = {int_lit, Value};
+            Tokens.push_back(token);
+        }
+    }
+    return Tokens;
+}
+
 int main(int argc, char* argv[]) {
     // Check for errors in the cmd arguments
     if(argc < 2) {
-        std::cout << "Must pass in a file\n";
+        std::cerr << "Must pass in a file\n";
         return EXIT_FAILURE;
     }
 
@@ -37,18 +81,13 @@ int main(int argc, char* argv[]) {
     }
     Program.close();
     
-    // Lexical Analysis
-    for(int i = 0; i <= FileContents.length(); ++i) {
-        // Semicolen
-        if(FileContents.substr(i, 1) == ";") {
-            std::cout << ";\n";
-        }
+    // Get Tokens
+    std::vector<Token> Tokens = Tokenize(FileContents);
 
-        // Return
-        if(FileContents.substr(i, 7) == "return ") {
-            std::cout << "return \n";
-        }
+    // Print Token Values
+    for(int i = 0; i < Tokens.size(); ++i) {
+        std::cout << Tokens[i].type << "\n" << Tokens[i].value << "\n\n";
     }
-
+    
     return EXIT_SUCCESS;
 }
