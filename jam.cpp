@@ -4,13 +4,13 @@
 
 bool CheckIfExtension(std::string::size_type n, std::string const& s, int Length) {
     if(std::string::npos == n) {
-        std::cout << "\nThis file does not contain \".fa\"";
+        std::cout << "This file does not contain \".ja\"\n";
         return 1;
     } else {
         if(Length - 3 == n) {
             return 0;
         } else {
-            std::cout << "\nThis file does not contain \".fa\"";
+            std::cout << "This file does not contain \".ja\"\n";
             return 1;
         }
     }
@@ -37,5 +37,18 @@ int main(int argc, char* argv[]) {
     }
     Program.close();
     
+    // Lexical Analysis
+    for(int i = 0; i <= FileContents.length(); ++i) {
+        // Semicolen
+        if(FileContents.substr(i, 1) == ";") {
+            std::cout << ";\n";
+        }
+
+        // Return
+        if(FileContents.substr(i, 7) == "return ") {
+            std::cout << "return \n";
+        }
+    }
+
     return EXIT_SUCCESS;
 }
