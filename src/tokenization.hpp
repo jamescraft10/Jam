@@ -25,7 +25,7 @@ std::vector<Token> Tokenize(const std::string str) {
             i+=6;
             Token token = {_return, "return "};
             Tokens.insert(Tokens.end(), 1, token);
-        } else if(std::isdigit(str[i])) {                // Numbers || str[i] == '=' || str[i] == '+' || str[i] == '-' || str[i] == '*' || str[i] == '/'
+        } else if(std::isdigit(str[i]) || str[i] == '=' || str[i] == '+' || str[i] == '-' || str[i] == '*' || str[i] == '/') {                // Numbers
             Token token = {int_lit, str.substr(i, 1)};
             Tokens.push_back(token);
         } else if(std::isspace(str[i])) {
