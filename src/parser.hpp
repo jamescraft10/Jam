@@ -13,7 +13,7 @@ std::vector<Token> Parse(std::vector<Token> Tokens) {
         if(Tokens[i].type == _return) {
             New_Tokens.push_back({_return, "return"});
             if(i + 1 < Tokens.size() && Tokens[i + 1].type == int_lit) {
-                for(int j = 1; Tokens[i+j].type != semi; ++j) {
+                for(int j = 1; Tokens[i+j].type != semi && Tokens[i+j].type != _fail; ++j) {
                     New_Tokens.push_back({int_lit, Tokens[i+j].value});
                 }
             } else {
@@ -23,6 +23,10 @@ std::vector<Token> Parse(std::vector<Token> Tokens) {
             }
         } else if(Tokens[i].type == semi) {
             New_Tokens.push_back({semi, ";"});
+        } else if(Tokens[i].type == _int) {
+            New_Tokens.push_back({_int, ""});
+        } else if(Tokens[i].type == letter || Tokens[i].type == int_lit) {
+            New_Tokens.push_back(Tokens[i]);
         }
     }
     return New_Tokens;

@@ -14,6 +14,10 @@ std::string JamToC(std::vector<Token> Tokens) {
             Output += ";\n";
         } else if(Tokens[i].type == int_lit) {
             Output += Tokens[i].value;
+        } else if(Tokens[i].type == _int) {
+            Output += "int " + Tokens[i].value;
+        } else if(Tokens[i].type == letter) {
+            Output += Tokens[i].value;
         }
     }
     Output += "\n}";

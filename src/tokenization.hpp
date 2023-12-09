@@ -6,13 +6,19 @@ enum TokenType {
     _return,
     int_lit,
     semi,
-    _fail
+    _fail,
+    _int,
+    _double,
+    _float,
+    _bool,
+    letter
 };
 
 struct Token {
     TokenType type;
     std::string value;
 };
+
 
 std::vector<Token> Tokenize(const std::string str) {
     std::vector<Token> Tokens;
@@ -28,10 +34,13 @@ std::vector<Token> Tokenize(const std::string str) {
         } else if(std::isdigit(str[i]) || str[i] == '=' || str[i] == '+' || str[i] == '-' || str[i] == '*' || str[i] == '/') {                // Numbers
             Token token = {int_lit, str.substr(i, 1)};
             Tokens.push_back(token);
-        } else if(std::isspace(str[i])) {
-            continue;
-        } else if(std::isalpha(str[i])) {
-            continue;
+        } else if(str.substr(i, 4) == "int ") {
+            i+=3;
+            Token token = {_int, "int "};
+            Tokens.insert(Tokens.end(), 1, token);
+        } else {
+            Token token = {letter, str.substr(i, 1)};
+            Tokens.push_back(token);
         }
     }
     return Tokens;
