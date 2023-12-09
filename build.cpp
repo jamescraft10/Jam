@@ -19,8 +19,8 @@ bool CheckExtension(std::string::size_type n, std::string const& s, int Length) 
 
 int main(int argc, char* argv[]) {
     // Check for errors in the cmd arguments
-    if(argc < 1) {
-        std::cerr << "Must pass in a file and a output\n";
+    if(argc < 2) {
+        std::cerr << "Must pass in a file\n";
         return EXIT_FAILURE;
     }
 
