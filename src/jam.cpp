@@ -43,6 +43,10 @@ int main(int argc, char* argv[]) {
     
     // Get Tokens
     std::vector<Token> Tokens = Tokenize(FileContents);
+    // Print Token Values
+    for (int i = 0; i < Tokens.size(); ++i) {
+        std::cout << Tokens[i].type << "\n" << Tokens[i].value << "\n\n";
+    }
 
     // Parse Tokens
     Tokens = Parse(Tokens);
