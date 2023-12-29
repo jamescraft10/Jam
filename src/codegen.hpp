@@ -12,7 +12,7 @@ std::string JamToC(std::vector<Token> Tokens) {
             Output += "return ";
         } else if(Tokens[i].type == semi) {
             Output += ";\n";
-        } else if(Tokens[i].type == int_lit) {
+        } else if(Tokens[i].type == num) {
             Output += Tokens[i].value;
         } else if(Tokens[i].type == _int) {
             Output += "int " + Tokens[i].value;

@@ -1,2 +1,2 @@
-int a = 1+1;
-return 15;
+int abc = 0+1;
+return abc;

@@ -1,5 +1,5 @@
 int main(void) {
-int a = 1+1;
-return 1515;
+int abc = 0+1;
+return abc;
 
 }

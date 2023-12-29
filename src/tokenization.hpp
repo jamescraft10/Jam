@@ -4,7 +4,7 @@
 
 enum TokenType {
     _return,
-    int_lit,
+    num,
     semi,
     _fail,
     _int,
@@ -32,7 +32,7 @@ std::vector<Token> Tokenize(const std::string str) {
             Token token = {_return, "return "};
             Tokens.insert(Tokens.end(), 1, token);
         } else if(std::isdigit(str[i]) || str[i] == '=' || str[i] == '+' || str[i] == '-' || str[i] == '*' || str[i] == '/') {                // Numbers
-            Token token = {int_lit, str.substr(i, 1)};
+            Token token = {num, str.substr(i, 1)};
             Tokens.push_back(token);
         } else if(str.substr(i, 4) == "int ") {
             i+=3;
