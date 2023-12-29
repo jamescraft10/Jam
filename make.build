@@ -1,2 +1,0 @@
-g++ -o ./build/jam ./src/jam.cpp
-.\\build\\jam ./tests/main.ja ./build/main
