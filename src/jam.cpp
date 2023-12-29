@@ -23,8 +23,14 @@ bool CheckExtension(std::string::size_type n, std::string const& s, int Length) 
 int main(int argc, char* argv[]) {
     // Check for errors in the cmd arguments
     if(argc < 2) {
-        std::cerr << "Must pass in a file and a output\n";
-        return EXIT_FAILURE;
+        std::cout << "Jam Programming Language\n";
+        std::cout << "jam input.ja output [-print]";
+        return EXIT_SUCCESS;
+    }
+
+    bool print = false;
+    if(argv[3] == "-print") { // Doesn't work
+        print = true;
     }
 
     std::string FilePath = argv[1];
@@ -44,8 +50,10 @@ int main(int argc, char* argv[]) {
     // Get Tokens
     std::vector<Token> Tokens = Tokenize(FileContents);
     // Print Token Values
-    for (int i = 0; i < Tokens.size(); ++i) {
-        std::cout << Tokens[i].type << "\n" << Tokens[i].value << "\n\n";
+    if(print) {
+        for(int i = 0; i < Tokens.size(); ++i) {
+            std::cout << Tokens[i].type << "\n" << Tokens[i].value << "\n\n";
+        }
     }
 
     // Parse Tokens
