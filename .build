@@ -1,4 +1,13 @@
-run:
+compile:
 g++ -o ./build/jam ./src/jam.cpp
 .\\build\\jam ./tests/main.ja ./build/main
+;
+
+run:
+.\\build\\main
+;
+
+test:
+g++ -o ./build/test ./tests/test.c
+.\\build\\test
 ;
