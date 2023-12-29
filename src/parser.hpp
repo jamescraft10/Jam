@@ -27,6 +27,12 @@ std::vector<Token> Parse(std::vector<Token> Tokens) {
             New_Tokens.push_back({_bool, ""});
         } else if(Tokens[i].type == letter || Tokens[i].type == num) {
             New_Tokens.push_back(Tokens[i]);
+        } else if(Tokens[i].type == openPara) {
+            New_Tokens.push_back(Tokens[i]);
+        } else if(Tokens[i].type == closePara) {
+            New_Tokens.push_back(Tokens[i]);
+        } else if(Tokens[i].type == print) {
+            New_Tokens.push_back(Tokens[i]);
         }
     }
     return New_Tokens;

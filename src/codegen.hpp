@@ -5,7 +5,7 @@
 #include "tokenization.hpp"
 
 std::string JamToC(std::vector<Token> Tokens) {
-    std::string Output = "#include <stdbool.h>\nint main(void) {\n";
+    std::string Output = "#include <stdio.h>\n#include <stdbool.h>\nint main(void) {\n";
 
     for(int i = 0; i < Tokens.size(); ++i) {
         if(Tokens[i].type == _return) {
@@ -24,6 +24,12 @@ std::string JamToC(std::vector<Token> Tokens) {
             Output += "bool " + Tokens[i].value;
         } else if(Tokens[i].type == letter) {
             Output += Tokens[i].value;
+        } else if(Tokens[i].type == openPara) {
+            Output += Tokens[i].value;
+        } else if(Tokens[i].type == closePara) {
+            Output += Tokens[i].value;
+        } else if(Tokens[i].type == print) {
+            Output += "printf";
         }
     }
     Output += "\n}";

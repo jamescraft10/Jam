@@ -2,8 +2,15 @@ int ab = 0+1;
 double cd = 0.1;
 float ef = 0.1;
 bool gh = 1;
+
 ab = 0+0;
 cd = ab+2;
 ef = cd+0.1;
 gh = 0;
+
+print("%d\n",ab);
+print("%lf\n",cd);
+print("%f\n",ef);
+print("%d\n",gh);
+
 return ab;

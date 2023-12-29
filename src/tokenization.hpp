@@ -11,7 +11,10 @@ enum TokenType {
     _double,
     _float,
     _bool,
-    letter
+    letter,
+    print,
+    openPara,
+    closePara
 };
 
 struct Token {
@@ -49,6 +52,16 @@ std::vector<Token> Tokenize(const std::string str) {
         } else if(str.substr(i, 5) == "bool ") {
             i+=4;
             Token token = {_bool, "bool "};
+            Tokens.insert(Tokens.end(), 1, token);
+        } else if(str.substr(i, 5) == "print") {
+            i+=4;
+            Token token = {print, "print"};
+            Tokens.insert(Tokens.end(), 1, token);
+        } else if(str.substr(i, 1) == "(") {
+            Token token = {openPara, "("};
+            Tokens.insert(Tokens.end(), 1, token);
+        } else if(str.substr(i, 1) == ")") {
+            Token token = {closePara, ")"};
             Tokens.insert(Tokens.end(), 1, token);
         } else {
             Token token = {letter, str.substr(i, 1)};
