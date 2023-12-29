@@ -31,12 +31,24 @@ std::vector<Token> Tokenize(const std::string str) {
             i+=6;
             Token token = {_return, "return "};
             Tokens.insert(Tokens.end(), 1, token);
-        } else if(std::isdigit(str[i]) || str[i] == '=' || str[i] == '+' || str[i] == '-' || str[i] == '*' || str[i] == '/') {                // Numbers
+        } else if(std::isdigit(str[i]) || str[i] == '=' || str[i] == '+' || str[i] == '-' || str[i] == '*' || str[i] == '/' || str[i] == '.') {                // Numbers
             Token token = {num, str.substr(i, 1)};
             Tokens.push_back(token);
         } else if(str.substr(i, 4) == "int ") {
             i+=3;
             Token token = {_int, "int "};
+            Tokens.insert(Tokens.end(), 1, token);
+        } else if(str.substr(i, 6) == "float ") {
+            i+=5;
+            Token token = {_float, "float "};
+            Tokens.insert(Tokens.end(), 1, token);
+        } else if(str.substr(i, 7) == "double ") {
+            i+=6;
+            Token token = {_double, "double "};
+            Tokens.insert(Tokens.end(), 1, token);
+        } else if(str.substr(i, 5) == "bool ") {
+            i+=4;
+            Token token = {_bool, "bool "};
             Tokens.insert(Tokens.end(), 1, token);
         } else {
             Token token = {letter, str.substr(i, 1)};

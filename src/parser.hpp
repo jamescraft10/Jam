@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include "tokenization.hpp"
 
 std::vector<Token> Parse(std::vector<Token> Tokens) {
@@ -18,6 +19,12 @@ std::vector<Token> Parse(std::vector<Token> Tokens) {
             New_Tokens.push_back({semi, ";"});
         } else if(Tokens[i].type == _int) {
             New_Tokens.push_back({_int, ""});
+        } else if(Tokens[i].type == _double) {
+            New_Tokens.push_back({_double, ""});
+        } else if(Tokens[i].type == _float) {
+            New_Tokens.push_back({_float, ""});
+        } else if(Tokens[i].type == _bool) {
+            New_Tokens.push_back({_bool, ""});
         } else if(Tokens[i].type == letter || Tokens[i].type == num) {
             New_Tokens.push_back(Tokens[i]);
         }
