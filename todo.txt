@@ -2,7 +2,10 @@ functions   || DONE
 math
 strings     || DONE
 chars       || DONE
-user input
+user input  || DONE
 arrays      || DONE
 pixel
 #include    || DONE
+if
+while
+for

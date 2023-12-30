@@ -22,7 +22,8 @@ enum TokenType {
     openParazz,
     closeParazz,
     _void,
-    _char
+    _char,
+    _input
 };
 
 struct Token {
@@ -134,7 +135,19 @@ std::vector<Token> Tokenize(std::string str1) {
             i+=4;
             Token token = {_char, "char "};
             Tokens.insert(Tokens.end(), 1, token);
-        } else {
+        } else if(str.substr(i, 6) == "input ") {
+            i+=5;
+            std::string inputValue;
+            int j;
+            for(j = 0; str[i+j] != ';'; ++j) {
+                inputValue += str[i+j];
+            }
+            std::string Value = "fgets("+inputValue+", sizeof("+inputValue+"), stdin);\n";
+            Token token = {_input, Value};
+            Tokens.insert(Tokens.end(), 1, token);
+            i+=j;
+        } 
+        else {
             Token token = {letter, str.substr(i, 1)};
             Tokens.push_back(token);
         }

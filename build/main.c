@@ -19,6 +19,8 @@ int main(void) {
 1,2,3,4,5}
 ;
     char str[] = "Hello, World!\n";
+    char inputString[30];
+    fgets( inputString, sizeof( inputString), stdin);
         printf("%s",str);
     printf("%d\n\n",array[2]);
     ab = 0+0;

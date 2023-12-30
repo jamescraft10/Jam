@@ -16,6 +16,8 @@ int main(void) {
     int aaa = 5%2;
     int array[] = {1,2,3,4,5};
     char str[] = "Hello, World!\n";
+    char inputString[30];
+    input inputString;
     
     print("%s",str);
     print("%d\n\n",array[2]);
