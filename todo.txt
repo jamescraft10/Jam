@@ -1,8 +1,8 @@
 functions   || DONE
 math
-strings
-chars
+strings     || DONE
+chars       || DONE
 user input
-arrays
+arrays      || DONE
 pixel
 #include    || DONE

@@ -20,7 +20,9 @@ enum TokenType {
     openParaz,
     closeParaz,
     openParazz,
-    closeParazz
+    closeParazz,
+    _void,
+    _char
 };
 
 struct Token {
@@ -74,7 +76,6 @@ std::vector<Token> Tokenize(std::string str1) {
     for(int i = 0; i < removedText.size(); ++i) {
         removeTextFromString(str, removedText[i]);
     }
-    std::cout << str << "\n";
 
     for(int i = 0; i <= str.length(); ++i) {
         if(str.substr(i, 1) == ";") {                    // Semicolen
@@ -124,6 +125,14 @@ std::vector<Token> Tokenize(std::string str1) {
             Tokens.insert(Tokens.end(), 1, token);
         } else if(str.substr(i, 1) == "]") {
             Token token = {closeParazz, "]"};
+            Tokens.insert(Tokens.end(), 1, token);
+        } else if(str.substr(i, 5) == "void ") {
+            i+=4;
+            Token token = {_void, "void "};
+            Tokens.insert(Tokens.end(), 1, token);
+        } else if(str.substr(i, 5) == "chat ") {
+            i+=4;
+            Token token = {_char, "char "};
             Tokens.insert(Tokens.end(), 1, token);
         } else {
             Token token = {letter, str.substr(i, 1)};
