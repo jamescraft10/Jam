@@ -1,0 +1,8 @@
+functions   || DONE
+math
+strings
+chars
+user input
+arrays
+pixel
+#include    || DONE

@@ -1,16 +1,28 @@
-int ab = 0+1;
-double cd = 0.1;
-float ef = 0.1;
-bool gh = true;
+#include "test.ja"
 
-ab = 0+0;
-cd = ab+2;
-ef = cd+0.1;
-gh = false;
+int add(int a, int b) {
+    return a+b;
+}
 
-print("%d\n",ab);
-print("%lf\n",cd);
-print("%f\n",ef);
-print("%d\n",gh);
+int main(void) {
+    int ab = 0+1;
+    double cd = 0.1;
+    float ef = 0.1;
+    bool gh = true;
+    int aaa = 5%2;
 
-return ab;
+    ab = 0+0;
+    cd = ab*2;
+    ef = cd+0.1;
+    gh = false;
+
+    print("%d\n",ab);
+    print("%lf\n",cd);
+    print("%f\n",ef);
+    print("%d\n",gh);
+    print("%d\n",aaa);
+    print("%d\n",add(5,6));
+    print("Output works!\n");
+
+    return ab;
+}

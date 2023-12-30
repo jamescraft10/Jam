@@ -15,7 +15,7 @@ std::vector<Token> Parse(std::vector<Token> Tokens) {
                 New_Tokens.push_back({_fail, "error"});
                 return New_Tokens;
             }
-        } else if(Tokens[i].type == semi) {
+        } else if(Tokens[i].type == semi) { // Add logic
             New_Tokens.push_back({semi, ";"});
         } else if(Tokens[i].type == _int) {
             New_Tokens.push_back({_int, ""});
@@ -32,6 +32,14 @@ std::vector<Token> Parse(std::vector<Token> Tokens) {
         } else if(Tokens[i].type == closePara) {
             New_Tokens.push_back(Tokens[i]);
         } else if(Tokens[i].type == print) {
+            New_Tokens.push_back(Tokens[i]);
+        } else if(Tokens[i].type == openParaz) {
+            New_Tokens.push_back(Tokens[i]);
+        } else if(Tokens[i].type == closeParaz) {
+            New_Tokens.push_back(Tokens[i]);
+        } else if(Tokens[i].type == openParazz) {
+            New_Tokens.push_back(Tokens[i]);
+        } else if(Tokens[i].type == closeParazz) {
             New_Tokens.push_back(Tokens[i]);
         }
     }

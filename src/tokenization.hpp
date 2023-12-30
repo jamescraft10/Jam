@@ -1,5 +1,7 @@
 #include <vector>
 #include <string>
+#include <iostream>
+#include <fstream>
 #pragma once
 
 enum TokenType {
@@ -14,7 +16,11 @@ enum TokenType {
     letter,
     print,
     openPara,
-    closePara
+    closePara,
+    openParaz,
+    closeParaz,
+    openParazz,
+    closeParazz
 };
 
 struct Token {
@@ -22,9 +28,53 @@ struct Token {
     std::string value;
 };
 
+std::string GetFileContent(std::string FilePath) {
+    std::string FileContents;
+    std::string OneLine;
+    std::ifstream Program(FilePath);
+    while(std::getline(Program, OneLine)) {
+        FileContents += OneLine;
+    }
+    Program.close();
 
-std::vector<Token> Tokenize(const std::string str) {
+    return FileContents;
+}
+
+void removeTextFromString(std::string &str, const std::string &removedText) {
+    size_t pos = str.find(removedText);
+    while (pos != std::string::npos) {
+        str.erase(pos, removedText.length());
+        pos = str.find(removedText, pos);
+    }
+}
+
+std::vector<Token> Tokenize(std::string str1) {
     std::vector<Token> Tokens;
+
+    // Check for includes
+    std::string str;
+    std::vector<std::string> removedText;
+
+    for(int i = 0; i < str1.length(); ++i) {
+        if (str1.substr(i, 10) == "#include \"") {
+            i+=10;
+            std::string includePath;
+            for(int j = 0; i+j < str1.length() && str1[i+j] != '\"'; ++j) {
+                includePath += str1[i + j];
+            }
+            str += GetFileContent(includePath);
+            removedText.push_back("#include \"" + includePath + "\"");
+            i += includePath.length();
+        } else {
+            str += str1[i];
+        }
+    }
+
+    // Remove the #include paths from str1
+    for(int i = 0; i < removedText.size(); ++i) {
+        removeTextFromString(str, removedText[i]);
+    }
+    std::cout << str << "\n";
 
     for(int i = 0; i <= str.length(); ++i) {
         if(str.substr(i, 1) == ";") {                    // Semicolen
@@ -34,7 +84,7 @@ std::vector<Token> Tokenize(const std::string str) {
             i+=6;
             Token token = {_return, "return "};
             Tokens.insert(Tokens.end(), 1, token);
-        } else if(std::isdigit(str[i]) || str[i] == '=' || str[i] == '+' || str[i] == '-' || str[i] == '*' || str[i] == '/' || str[i] == '.') {                // Numbers
+        } else if(std::isdigit(str[i]) || str[i] == '=' || str[i] == '+' || str[i] == '-' || str[i] == '*' || str[i] == '/' || str[i] == '.' || str[i] == '%') {                // Numbers
             Token token = {num, str.substr(i, 1)};
             Tokens.push_back(token);
         } else if(str.substr(i, 4) == "int ") {
@@ -62,6 +112,18 @@ std::vector<Token> Tokenize(const std::string str) {
             Tokens.insert(Tokens.end(), 1, token);
         } else if(str.substr(i, 1) == ")") {
             Token token = {closePara, ")"};
+            Tokens.insert(Tokens.end(), 1, token);
+        } else if(str.substr(i, 1) == "{") {
+            Token token = {openParaz, "{\n"};
+            Tokens.insert(Tokens.end(), 1, token);
+        } else if(str.substr(i, 1) == "}") {
+            Token token = {closeParaz, "}\n"};
+            Tokens.insert(Tokens.end(), 1, token);
+        } else if(str.substr(i, 1) == "[") {
+            Token token = {openParazz, "["};
+            Tokens.insert(Tokens.end(), 1, token);
+        } else if(str.substr(i, 1) == "]") {
+            Token token = {closeParazz, "]"};
             Tokens.insert(Tokens.end(), 1, token);
         } else {
             Token token = {letter, str.substr(i, 1)};
