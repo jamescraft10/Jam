@@ -6,6 +6,6 @@ user input  || DONE
 arrays      || DONE
 pixel
 #include    || DONE
-if
-while
-for
+if          || DONE
+while       || DONE
+for         || DONE

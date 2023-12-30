@@ -19,6 +19,20 @@ int main(void) {
     char inputString[30];
     input inputString;
     
+    for(int i = 0; i < 5; ++i) {
+        print("%d\n",i);
+    }
+
+    int i = 0;
+    while(i <= 10) {
+        if(i%2 == 0) {
+            print("Number is even\n");
+        } else {
+            print("Number is odd\n");
+        }
+        ++i;
+    }
+
     print("%s",str);
     print("%d\n\n",array[2]);
 

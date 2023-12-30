@@ -44,6 +44,14 @@ std::string JamToC(std::vector<Token> Tokens) {
             Output += Tokens[i].value;
         } else if(Tokens[i].type == _input) {
             Output += Tokens[i].value;
+        } else if(Tokens[i].type == _if) {
+            Output += Tokens[i].value;
+        } else if(Tokens[i].type == _for) {
+            Output += Tokens[i].value;
+        } else if(Tokens[i].type == _while) {
+            Output += Tokens[i].value;
+        } else if(Tokens[i].type == _else) {
+            Output += Tokens[i].value;
         }
     }
 

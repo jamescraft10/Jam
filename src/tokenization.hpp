@@ -23,7 +23,11 @@ enum TokenType {
     closeParazz,
     _void,
     _char,
-    _input
+    _input,
+    _if,
+    _while,
+    _for,
+    _else
 };
 
 struct Token {
@@ -86,7 +90,7 @@ std::vector<Token> Tokenize(std::string str1) {
             i+=6;
             Token token = {_return, "return "};
             Tokens.insert(Tokens.end(), 1, token);
-        } else if(std::isdigit(str[i]) || str[i] == '=' || str[i] == '+' || str[i] == '-' || str[i] == '*' || str[i] == '/' || str[i] == '.' || str[i] == '%') {                // Numbers
+        } else if(std::isdigit(str[i]) || str[i] == '=' || str[i] == '+' || str[i] == '-' || str[i] == '*' || str[i] == '/' || str[i] == '.' || str[i] == '%' || str[i] == '&' || str[i] == '|' || str[i] == '!') {                // Numbers
             Token token = {num, str.substr(i, 1)};
             Tokens.push_back(token);
         } else if(str.substr(i, 4) == "int ") {
@@ -146,8 +150,23 @@ std::vector<Token> Tokenize(std::string str1) {
             Token token = {_input, Value};
             Tokens.insert(Tokens.end(), 1, token);
             i+=j;
-        } 
-        else {
+        } else if(str.substr(i, 2) == "if") {
+            i+=1;
+            Token token = {_if, "if"};
+            Tokens.insert(Tokens.end(), 1, token);
+        } else if(str.substr(i, 3) == "for") {
+            i+=2;
+            Token token = {_for, "for"};
+            Tokens.insert(Tokens.end(), 1, token);
+        } else if(str.substr(i, 5) == "while") {
+            i+=4;
+            Token token = {_while, "while"};
+            Tokens.insert(Tokens.end(), 1, token);
+        } else if(str.substr(i, 4) == "else") {
+            i+=3;
+            Token token = {_else, "else"};
+            Tokens.insert(Tokens.end(), 1, token);
+        } else {
             Token token = {letter, str.substr(i, 1)};
             Tokens.push_back(token);
         }

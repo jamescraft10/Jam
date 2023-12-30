@@ -21,7 +21,22 @@ int main(void) {
     char str[] = "Hello, World!\n";
     char inputString[30];
     fgets( inputString, sizeof( inputString), stdin);
-        printf("%s",str);
+        for(int i = 0;
+ i < 5;
+ ++i) {
+        printf("%d\n",i);
+    }
+    int i = 0;
+    while(i <= 10) {
+        if(i%2 == 0) {
+            printf("Number is even\n");
+        }
+ else {
+            printf("Number is odd\n");
+        }
+        ++i;
+    }
+    printf("%s",str);
     printf("%d\n\n",array[2]);
     ab = 0+0;
     cd = ab*2;

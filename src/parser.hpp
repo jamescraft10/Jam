@@ -45,6 +45,14 @@ std::vector<Token> Parse(std::vector<Token> Tokens) {
             New_Tokens.push_back(Tokens[i]);
         } else if(Tokens[i].type == _input) {
             New_Tokens.push_back(Tokens[i]);
+        } else if(Tokens[i].type == _if) {
+            New_Tokens.push_back(Tokens[i]);
+        } else if(Tokens[i].type == _for) {
+            New_Tokens.push_back(Tokens[i]);
+        } else if(Tokens[i].type == _while) {
+            New_Tokens.push_back(Tokens[i]);
+        } else if(Tokens[i].type == _else) {
+            New_Tokens.push_back(Tokens[i]);
         } else if(Tokens[i].type == letter || Tokens[i].type == num) {
             New_Tokens.push_back(Tokens[i]);
         }
