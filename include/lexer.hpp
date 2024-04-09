@@ -3,9 +3,14 @@
 namespace Jam {
     namespace Lexer {
         enum TokenType {
-            _return,
-            _num,
-            _semi
+            Number,
+            Identifier,
+            Equals,
+            OpenParen,
+            CloseParen,
+            BinaryOperator,
+            Let,
+            Semi
         };
 
         class Token {

@@ -1,37 +1,58 @@
 #include <iostream>
-#include <sstream>
+#include <unordered_map>
 #include <lexer.hpp>
 
 namespace Jam {
     namespace Lexer {
         std::vector<Token> Tokenization(std::string input) {
-            // return 102;
-            // {_return, "return"}, {_num, "102"}, {_semi, ";"}
-            // * ignore all spaces and \n
-            
-            // have a "pointer" that goes through the entire file if its " " || "\n" then ignore it if its a number or a char then dont ignore it
-            // if p through p+6 == "return" ......
-
             // TODO make this fast with hash map to store keywords or something just to make it fast
 
-            std::vector<Token> tokens;
+            std::unordered_map<std::string, Jam::Lexer::TokenType> keywords = {
+                {"let", Jam::Lexer::Let}
+            };
 
-            for(int i = 0; i < input.size(); ++i) {
-                if(input.substr(i, 6) == "return") {
-                    std::cout <<  "Return\t" << input.substr(i, 6) << "\n";
-                    Jam::Lexer::Token token(Jam::Lexer::_return, "return");
-                    tokens.push_back(token);
-                } else if(input[i] == ';') {
-                    std::cout <<  "Semi\t" << input[i] << "\n";
-                    Jam::Lexer::Token token(Jam::Lexer::_semi, ";");
-                    tokens.push_back(token);
-                } else if(isdigit(input[i])) {
-                    std::cout <<  "Number\t" << input[i] << "\t" << std::to_string(input[i]-48) << "\n";
-                    Jam::Lexer::Token token(Jam::Lexer::_num, std::to_string(input[i]-48)); // -48 because acsii is really stupid
-                    tokens.push_back(token);
-                } else {
-                    continue;
+            std::vector<Token> tokens;
+            while(input.size() > 0) {
+                if(input[0] == '(') tokens.push_back(Jam::Lexer::Token(Jam::Lexer::OpenParen, "("));
+                else if(input[0] == ')') tokens.push_back(Jam::Lexer::Token(Jam::Lexer::CloseParen, ")"));
+                else if(input[0] == '+' || input[0] == '-' || input[0] == '/' || input[0] == '*') tokens.push_back(Jam::Lexer::Token(Jam::Lexer::BinaryOperator, { input[0] }));
+                else if(input[0] == '=') tokens.push_back(Jam::Lexer::Token(Jam::Lexer::Equals, "="));
+                else if(input[0] == ';') tokens.push_back(Jam::Lexer::Token(Jam::Lexer::Semi, ";"));
+                else {
+                    // handle muticharaacter tokens
+                    // handle whitespace/new lines
+
+                    // numbers
+                    if(isdigit(input[0])) {
+                        std::string number;
+                        while(input.size() > 0 && isdigit(input[0])) {
+                            number += input[0];
+                            input = input.substr(1, input.size());
+                        }
+                        tokens.push_back(Jam::Lexer::Token(Jam::Lexer::Number, number));
+                    } else if(isalpha(input[0])) { // identifier
+                        std::string identifier;
+                        while(input.size() > 0 && isalpha(input[0])) {
+                            identifier += input[0];
+                            input = input.substr(1, input.size());
+                        }
+
+                        // check if not keyword
+                        if(keywords.find(identifier) == keywords.end()) {
+                            tokens.push_back(Jam::Lexer::Token(Jam::Lexer::Identifier, identifier));
+                        } else { // if keyword
+                            tokens.push_back(Jam::Lexer::Token(keywords.find(identifier)->second, identifier));
+                        }
+                    } else if(input[0] == ' ' || input[0] == '\n' || input[0] == '\t') {
+                        input = input.substr(1, input.size());
+                        continue;
+                    } else {
+                        std::cout << "Unreconized character found in source: " << input[0] << "\n";
+                        std::exit(1);
+                    }
                 }
+
+                input = input.substr(1, input.size());
             }
 
             return tokens;

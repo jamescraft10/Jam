@@ -1,2 +1,1 @@
-return 102;
-return 502;
+let x = 12 + ( foo * bar );
