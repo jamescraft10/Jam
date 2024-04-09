@@ -1,11 +1,4 @@
-#include <iostream>
-#include <fstream>
-#include <cstdlib>
-
-#include "tokenization.hpp"
-#include "parser.hpp"
-#include "codegen.hpp"
-
+/*
 bool CheckExtension(std::string::size_type n, std::string const& s, int Length) {
     if(std::string::npos == n) {
         std::cout << "This file does not contain \".ja\"\n";
@@ -24,13 +17,8 @@ int main(int argc, char* argv[]) {
     // Check for errors in the cmd arguments
     if(argc < 2) {
         std::cout << "Jam Programming Language\n";
-        std::cout << "jam input.ja output [-print]";
+        std::cout << "jam input.ja output";
         return EXIT_SUCCESS;
-    }
-
-    bool print = false;
-    if(argv[3] == "-print") { // Doesn't work
-        print = true;
     }
 
     std::string FilePath = argv[1];
@@ -39,42 +27,77 @@ int main(int argc, char* argv[]) {
     }
 
     // Get file contents
-    std::string FileContents;
     std::string OneLine;
     std::ifstream Program(FilePath);
     while(std::getline(Program, OneLine)) {
-        FileContents += OneLine;
+        std::cout << OneLine << "\n";
     }
     Program.close();
-    
-    // Get Tokens
-    std::vector<Token> Tokens = Tokenize(FileContents);
-    // Print Token Values
-    if(print) {
-        for(int i = 0; i < Tokens.size(); ++i) {
-            std::cout << Tokens[i].type << "\n" << Tokens[i].value << "\n\n";
+
+    return EXIT_SUCCESS;
+}
+*/
+#include <iostream>
+#include <fstream>
+#include <cstdlib>
+#include <vector>
+#include <sstream>
+#include <string>
+
+#include <jam.hpp>
+#include <lexer.hpp>
+
+namespace Jam {
+    bool checkExtension(std::string::size_type n, std::string const& s, int Length) {
+        if(std::string::npos == n) {
+            std::cout << "This file does not contain \".ja\"\n";
+            return 1;
+        } else {
+            if(Length - 3 == n) {
+                return 0;
+            } else {
+                std::cout << "This file does not contain \".ja\"\n";
+                return 1;
+            }
         }
     }
 
-    // Parse Tokens
-    Tokens = Parse(Tokens);
-    Token ErrorToken = {_fail,"fail"};
-    if(Tokens[0].type == ErrorToken.type) {
-        std::cout << "Error\n";
-        return EXIT_FAILURE;
+    void usageCheck(int argc) {
+        // Check for errors in the cmd arguments
+        if(argc < 2) {
+            std::cout << "The correct usage is:\n";
+            std::cout << "jam input.ja output\n";
+            std::exit(EXIT_FAILURE);
+        }
     }
 
-    // Jam to C
-    std::string Output = JamToC(Tokens);
+    std::string getFileContents(std::string path) {
+        std::string Contents;
+        std::string oneLine;
+        std::ifstream program(path);
+        while(std::getline(program, oneLine)) {
+            Contents += oneLine + "\n";
+        }
+        program.close();
+        std::cout << "Contents {\n" << Contents << "}\n\n";
+        return Contents;
+    }
+};
 
-    // Create File
-    std::string OutputFileC = argv[2];   OutputFileC += ".c";
-    std::ofstream File(OutputFileC);
-    File << Output;
-    File.close();
+int main(int argc, char* argv[]) {
+    Jam::usageCheck(argc);
+    std::string path = argv[1];
+    Jam::checkExtension(path.find(".ja"), path, path.length());
+    std::string fileContents = Jam::getFileContents(path);
+    std::vector<Jam::Lexer::Token> tokens = Jam::Lexer::Tokenization(fileContents);
 
-    // Compile The C
-    std::system(("g++ -o " + std::string(argv[2]) + " " + OutputFileC).c_str());
+    //Jam::Lexer::Token token1(Jam::Lexer::_return, "return");
+
+    std::cout << "\n";
+    // print tokens
+    for(int i = 0; i < tokens.size(); ++i) {
+        std::cout << "Token: " << tokens[i].type << "\t" << tokens[i].value << "\n";
+    }
 
     return EXIT_SUCCESS;
 }
