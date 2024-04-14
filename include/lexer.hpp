@@ -10,7 +10,8 @@ namespace Jam {
             CloseParen,
             BinaryOperator,
             Let,
-            Semi
+            Semi,
+            _EOF // end of file
         };
 
         class Token {
@@ -24,5 +25,6 @@ namespace Jam {
         };
 
         std::vector<Token> Tokenization(std::string input);
+        bool isOperator(char input);
     };
 };
