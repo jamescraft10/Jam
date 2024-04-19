@@ -1,42 +1,3 @@
-/*
-bool CheckExtension(std::string::size_type n, std::string const& s, int Length) {
-    if(std::string::npos == n) {
-        std::cout << "This file does not contain \".ja\"\n";
-        return 1;
-    } else {
-        if(Length - 3 == n) {
-            return 0;
-        } else {
-            std::cout << "This file does not contain \".ja\"\n";
-            return 1;
-        }
-    }
-}
-
-int main(int argc, char* argv[]) {
-    // Check for errors in the cmd arguments
-    if(argc < 2) {
-        std::cout << "Jam Programming Language\n";
-        std::cout << "jam input.ja output";
-        return EXIT_SUCCESS;
-    }
-
-    std::string FilePath = argv[1];
-    if(CheckExtension(FilePath.find(".ja"), FilePath, FilePath.length())) {
-        return EXIT_FAILURE;
-    }
-
-    // Get file contents
-    std::string OneLine;
-    std::ifstream Program(FilePath);
-    while(std::getline(Program, OneLine)) {
-        std::cout << OneLine << "\n";
-    }
-    Program.close();
-
-    return EXIT_SUCCESS;
-}
-*/
 #include <iostream>
 #include <fstream>
 #include <cstdlib>
@@ -46,6 +7,7 @@ int main(int argc, char* argv[]) {
 
 #include <jam.hpp>
 #include <lexer.hpp>
+#include <ast.hpp>
 
 namespace Jam {
     bool checkExtension(std::string::size_type n, std::string const& s, int Length) {
@@ -98,6 +60,23 @@ int main(int argc, char* argv[]) {
     for(int i = 0; i < tokens.size(); ++i) {
         std::cout << "Token: " << tokens[i].type << "\t" << tokens[i].value << "\n";
     }
+
+    // ast test
+    Jam::Ast::NumericLiteral left;
+    left.value = 15.2;
+
+    Jam::Ast::NumericLiteral right;
+    right.value = 12.6;
+
+    Jam::Ast::BinaryExpr binaryExpr;
+    binaryExpr.left = &left;
+    binaryExpr.right = &right;
+    binaryExpr._operator = "+";
+
+    std::vector<Jam::Ast::Stmt*> body = {&binaryExpr};
+    Jam::Ast::Program program;
+    program.body = body;
+    
 
     return EXIT_SUCCESS;
 }
