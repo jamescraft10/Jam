@@ -77,6 +77,7 @@ int main(int argc, char* argv[]) {
     Jam::Ast::Program program;
     program.body = body;
     
+    // i ran it through a debugger and i saw the var its good
 
     return EXIT_SUCCESS;
 }
