@@ -51,21 +51,15 @@ int main(int argc, char* argv[]) {
     }
     std::cout << "\n";
 
-    // Jam::Ast::Program program = Jam::Parser::ProduceAST(tokens);
     Jam::Parser::Parser parser(tokens);
 
+    // print ast
+    std::cout << "AST\n";
     std::cout << "Program {\n";
     for(int i = 0; i < parser.program.body.size(); ++i) {
         parser.program.body[i]->Print();
     }
     std::cout << "}\n";
-
-    // TODO: make a function to print a ast so i dont do this everytime i wanna
-    // also make it so i can easyily get the values of every element
-    
-    // Jam::Ast::BinaryExpr* binaryExpr = dynamic_cast<Jam::Ast::BinaryExpr*>(parser.program.body[0].get());
-    // std::cout << "Operator: " << binaryExpr->_operator << "\n";
-    // std::cout << "Left Value: " << ((Jam::Ast::NumericLiteral*)binaryExpr->left.get())->value << "\n";
 
     return EXIT_SUCCESS;
 }

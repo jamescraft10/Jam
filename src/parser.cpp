@@ -102,13 +102,6 @@ namespace Jam {
             this->tokens = tokens;
 
             while(this->tokens[0].type != Jam::Lexer::EOF_) {
-                std::cout << ".\n";
-                // print tokens
-                for(int i = 0; i < this->tokens.size(); ++i) {
-                    std::cout << "Token: " << this->tokens[i].type << "\t" << this->tokens[i].value << "\n";
-                }
-                std::cout << "\n\n";
-
                 this->program.body.push_back(ParseStmt());
             }
         }
@@ -134,19 +127,18 @@ namespace Jam {
                 case Jam::Lexer::TokenType::Number: {
                     std::string value = this->tokens[0].value;
                     this->tokens.erase(this->tokens.begin());
-                    std::cout << "..\n";
-                // print tokens
-                for(int i = 0; i < this->tokens.size(); ++i) {
-                    std::cout << "Token: " << this->tokens[i].type << "\t" << this->tokens[i].value << "\n";
-                }
-                std::cout << "\n\n";
                     return std::make_unique<Jam::Ast::NumericLiteral>(value);
                 }
 
-                //case Jam::Lexer::TokenType::OpenParen: {
-                //    this->tokens.erase(this->tokens.begin()); // remove open paren
-                //    return std::make_unique<Jam::Ast::NumericLiteral>(this->tokens[0].value);
-                //}
+                case Jam::Lexer::TokenType::OpenParen: {
+                    this->tokens.erase(this->tokens.begin()); // remove open paren
+                    std::unique_ptr<Jam::Ast::Stmt> value = ParseExpr();
+                    if(tokens[0].type != Jam::Lexer::CloseParen) {
+                        Jam::Error::CallError("Unexpected token found during parenthsised expression. Expected closing parenthesis.\n");
+                    }
+                    this->tokens.erase(this->tokens.begin());
+                    return value;
+                }
 
                 default:
                     Jam::Error::CallError("Unexpected token found during parsing.\n",

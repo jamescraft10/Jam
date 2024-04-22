@@ -16,7 +16,7 @@ namespace Jam {
                 NodeType kind;
                 virtual ~Stmt() = default;
                 virtual void Print() {
-                    std::cout << "Default Stmt/Expr\n";
+                    std::cout << "Default Stmt/Expr\n\n";
                 }
         };
 
@@ -25,7 +25,7 @@ namespace Jam {
         class Program : public Stmt {
             public:
                 virtual void Print() {
-                    std::cout << "Program\n";
+                    std::cout << "Program\n\n";
                 }
 
                 NodeType kind = NodeType::Program;
@@ -43,7 +43,9 @@ namespace Jam {
                 virtual void Print() {
                     std::cout << "BinaryExpr {\n";
                     std::cout << "Operator: " << _operator << "\n";
+                    std::cout << "Left: ";
                     left.get()->Print();
+                    std::cout << "Right ";
                     right.get()->Print();
                     std::cout << "}\n";
                 }
