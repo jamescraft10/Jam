@@ -1,13 +1,4 @@
-#include <iostream>
-#include <fstream>
-#include <cstdlib>
-#include <vector>
-#include <sstream>
-#include <string>
-
 #include <jam.hpp>
-#include <lexer.hpp>
-#include <ast.hpp>
 
 namespace Jam {
     bool checkExtension(std::string::size_type n, std::string const& s, int Length) {
@@ -51,33 +42,30 @@ int main(int argc, char* argv[]) {
     std::string path = argv[1];
     Jam::checkExtension(path.find(".ja"), path, path.length());
     std::string fileContents = Jam::getFileContents(path);
+
     std::vector<Jam::Lexer::Token> tokens = Jam::Lexer::Tokenization(fileContents);
 
-    //Jam::Lexer::Token token1(Jam::Lexer::_return, "return");
-
-    std::cout << "\n";
     // print tokens
     for(int i = 0; i < tokens.size(); ++i) {
         std::cout << "Token: " << tokens[i].type << "\t" << tokens[i].value << "\n";
     }
+    std::cout << "\n";
 
-    // ast test
-    Jam::Ast::NumericLiteral left;
-    left.value = 15.2;
+    // Jam::Ast::Program program = Jam::Parser::ProduceAST(tokens);
+    Jam::Parser::Parser parser(tokens);
 
-    Jam::Ast::NumericLiteral right;
-    right.value = 12.6;
+    std::cout << "Program {\n";
+    for(int i = 0; i < parser.program.body.size(); ++i) {
+        parser.program.body[i]->Print();
+    }
+    std::cout << "}\n";
 
-    Jam::Ast::BinaryExpr binaryExpr;
-    binaryExpr.left = &left;
-    binaryExpr.right = &right;
-    binaryExpr._operator = "+";
-
-    std::vector<Jam::Ast::Stmt*> body = {&binaryExpr};
-    Jam::Ast::Program program;
-    program.body = body;
+    // TODO: make a function to print a ast so i dont do this everytime i wanna
+    // also make it so i can easyily get the values of every element
     
-    // i ran it through a debugger and i saw the var its good
+    // Jam::Ast::BinaryExpr* binaryExpr = dynamic_cast<Jam::Ast::BinaryExpr*>(parser.program.body[0].get());
+    // std::cout << "Operator: " << binaryExpr->_operator << "\n";
+    // std::cout << "Left Value: " << ((Jam::Ast::NumericLiteral*)binaryExpr->left.get())->value << "\n";
 
     return EXIT_SUCCESS;
 }

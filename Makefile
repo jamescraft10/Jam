@@ -1,18 +1,18 @@
 all:
-	g++ -o ./build/jam.out ./src/jam.cpp ./src/lexer.cpp -Iinclude/
-	build/jam.out $(INPUT) $(OUTPUT)
+	g++ ./src/jam.cpp ./src/lexer.cpp ./src/parser.cpp -o build/jam -Iinclude/
+	build/jam $(INPUT) $(OUTPUT)
 
 build:
-	g++ -o ./build/jam.out ./src/jam.cpp ./src/lexer.cpp -Iinclude/ -O3
+	g++ ./src/jam.cpp ./src/lexer.cpp ./src/parser.cpp -o build/jam -Iinclude/ -O3
 
 debug:
-	g++ -o ./build/jam.out ./src/jam.cpp ./src/lexer.cpp -Iinclude/ -g
-	gdb --args ./build/jam.out $(INPUT) $(OUTPUT)
+	g++ ./src/jam.cpp ./src/lexer.cpp ./src/parser.cpp -o build/jam -Iinclude/ -g
+	gdb --args ./build/jam $(INPUT) $(OUTPUT)
 
 time:
-	g++ -o ./build/jam.out ./src/jam.cpp ./src/lexer.cpp -Iinclude/
-	time build/jam.out $(INPUT) $(OUTPUT)
+	g++ ./src/jam.cpp ./src/lexer.cpp ./src/parser.cpp -o build/jam -Iinclude/
+	time build/jam $(INPUT) $(OUTPUT)
 
 setup:
 	mkdir build
-	mkdir ./build/jam
+	mkdir ./tests/build

@@ -1,3 +1,5 @@
+#include <parser.hpp> // includes everything else
+
 namespace Jam {
     bool checkExtension(std::string::size_type n, std::string const& s, int Length);
     void usageCheck(int argc);

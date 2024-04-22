@@ -58,7 +58,7 @@ namespace Jam {
             }
 
             // EOF
-            tokens.push_back(Jam::Lexer::Token(Jam::Lexer::_EOF, "EOF"));
+            tokens.push_back(Jam::Lexer::Token(Jam::Lexer::EOF_, "EOF"));
 
             return tokens;
         }

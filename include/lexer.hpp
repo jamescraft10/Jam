@@ -11,7 +11,7 @@ namespace Jam {
             BinaryOperator,
             Let,
             Semi,
-            _EOF // end of file
+            EOF_ // end of file
         };
 
         class Token {
