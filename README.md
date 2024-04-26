@@ -16,4 +16,4 @@ Jam will have the following features
 - Lexer DONE
 - AST DONE
 - Parser DONE
-- C++ generation and complication (switch to llvm later)
+- C++ generation and complication
