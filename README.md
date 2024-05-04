@@ -1,4 +1,7 @@
 # Jam
 ### The Jam Programming Language
 
-Jam is a work in progress and has bassically nothing done.
+With Jam you can currently only compile stuff like `15*(5+2)` into C++ parens also dont work right now.
+
+## Compiling
+You can compile the compiler with `make build` and then you can compile .jam files with `jam input.ja output`
