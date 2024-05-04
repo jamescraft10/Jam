@@ -1,3 +1,6 @@
+#ifndef _PARSER_
+#define _PARSER_
+
 #include <iostream>
 #include <fstream>
 #include <cstdlib>
@@ -30,3 +33,5 @@ namespace Jam {
         };
     };
 };
+
+#endif // _PARSER_

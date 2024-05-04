@@ -1,3 +1,6 @@
+#ifndef _AST_
+#define _AST_
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -14,9 +17,13 @@ namespace Jam {
         class Stmt {
             public:
                 NodeType kind;
+                virtual int kindInt() { return -1; }
                 virtual ~Stmt() = default;
                 virtual void Print() {
                     std::cout << "Default Stmt/Expr\n\n";
+                }
+                virtual std::string CodeGen() {
+                    return "Default";
                 }
         };
 
@@ -29,7 +36,12 @@ namespace Jam {
                 }
 
                 NodeType kind = NodeType::Program;
+                virtual int kindInt() { return 0; }
                 std::vector<std::unique_ptr<Stmt>> body;
+
+                virtual std::string CodeGen() {
+                    return "";
+                }
         };
 
         class BinaryExpr : public Expr {
@@ -51,9 +63,14 @@ namespace Jam {
                 }
 
                 NodeType kind = NodeType::BinaryExpr;
+                virtual int kindInt() { return 3; }
                 std::string _operator;
                 std::unique_ptr<Stmt> left;
                 std::unique_ptr<Stmt> right;
+
+                virtual std::string CodeGen() {
+                    return left.get()->CodeGen() + _operator + right.get()->CodeGen();
+                }
         };
 
         class Identifier : public Expr {
@@ -69,7 +86,12 @@ namespace Jam {
                 }
 
                 NodeType kind = NodeType::Identifier;
+                virtual int kindInt() { return 2; }
                 std::string symbol;
+
+                virtual std::string CodeGen() {
+                    return symbol;
+                }
         };
 
         class NumericLiteral : public Expr {
@@ -85,7 +107,14 @@ namespace Jam {
                 }
 
                 NodeType kind = NodeType::NumericLiteral;
+                virtual int kindInt() { return 1; }
                 std::string value;
+
+                virtual std::string CodeGen() {
+                    return value;
+                }
         };
     };
 };
+
+#endif // _AST_

@@ -35,6 +35,41 @@ namespace Jam {
         std::cout << "Contents {\n" << Contents << "}\n\n";
         return Contents;
     }
+
+    namespace CodeGen {
+        void Generate(Jam::Ast::Program program, std::string outputDir) {
+            std::string output = "#include <iostream>\nint main() {";
+            for(int i = 0; i < program.body.size(); ++i) {
+                std::string generated = program.body[i]->CodeGen();
+                if(generated == "Default") {
+                    Jam::Error::CallWarning("Unexpected AST NodeType!\n");
+                } else if(program.body[i].get()->kindInt() == 1) {
+                    output += "return " + generated + ";";
+                } else if(program.body[i].get()->kindInt() == 3) {
+                    output += "return " + generated + ";";
+                } else {
+                    output += generated;
+                }
+            }
+
+            output += "}";
+            
+            if(output == "#include <iostream>\nint main() {}") {
+                Jam::Error::CallWarning("No Nodes in AST!\n");
+            }
+
+            GenerateFile(outputDir+".cpp", output);
+            std::string compileCpp = "g++ -o " + outputDir + " " + outputDir + ".cpp";
+            std::cout << compileCpp << "\n";
+            std::system(compileCpp.c_str());
+        }
+
+        void GenerateFile(std::string outputDir, std::string outputContent) {
+            std::ofstream File(outputDir);
+            File << outputContent;
+            File.close();
+        }
+    };
 };
 
 int main(int argc, char* argv[]) {
@@ -59,7 +94,12 @@ int main(int argc, char* argv[]) {
     for(int i = 0; i < parser.program.body.size(); ++i) {
         parser.program.body[i]->Print();
     }
-    std::cout << "}\n";
+    std::cout << "}\n\n";
+
+    std::string output = argv[2];
+    Jam::CodeGen::Generate(std::move(parser.program), output);
+
+    std::cout << "Compiled binary at " << output << "\n";
 
     return EXIT_SUCCESS;
 }
