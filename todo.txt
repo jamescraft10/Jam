@@ -1,1 +1,3 @@
-lexer
+Lexer |DONE|
+Parser |DONE|
+Codegen |DONE|
