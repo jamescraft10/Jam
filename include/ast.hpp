@@ -69,7 +69,7 @@ namespace Jam {
                 std::unique_ptr<Stmt> right;
 
                 virtual std::string CodeGen() {
-                    return left.get()->CodeGen() + _operator + right.get()->CodeGen();
+                    return "(" + left.get()->CodeGen() + _operator + right.get()->CodeGen() + ")";
                 }
         };
 
