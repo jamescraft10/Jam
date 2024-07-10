@@ -1,18 +1,24 @@
+CC = g++
+SRC_PATH = src
+BUILD_PATH = build/jam
+FILES = jam.cpp lexer.cpp parser.cpp
+SOURCES = $(FILES:%.cpp=$(SRC_PATH)/%.cpp)
+CFLAGS = -Iinclude
+
+INPUT = tests/main.ja
+OUTPUT = build/main
+
 all:
-	g++ ./src/jam.cpp ./src/lexer.cpp ./src/parser.cpp -o build/jam -Iinclude/
-	build/jam $(INPUT) $(OUTPUT)
+	$(CC) $(SOURCES) -o $(BUILD_PATH) $(CFLAGS)
+	$(BUILD_PATH) $(INPUT) $(OUTPUT)
 
 build:
-	g++ ./src/jam.cpp ./src/lexer.cpp ./src/parser.cpp -o build/jam -Iinclude/ -O3
+	$(CC) $(SOURCES) -o $(BUILD_PATH) $(CFLAGS) -O3
 
 debug:
-	g++ ./src/jam.cpp ./src/lexer.cpp ./src/parser.cpp -o build/jam -Iinclude/ -g
-	gdb --args ./build/jam $(INPUT) $(OUTPUT)
+	$(CC) $(SOURCES) -o $(BUILD_PATH) $(CFLAGS) -g
+	gdb --args $(BUILD_PATH) $(INPUT) $(OUTPUT)
 
 time:
-	g++ ./src/jam.cpp ./src/lexer.cpp ./src/parser.cpp -o build/jam -Iinclude/
-	time build/jam $(INPUT) $(OUTPUT)
-
-setup:
-	mkdir build
-	mkdir ./tests/build
+	$(CC) $(SOURCES) -o $(BUILD_PATH) $(CFLAGS)
+	time $(BUILD_PATH) $(INPUT) $(OUTPUT)
