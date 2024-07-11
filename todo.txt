@@ -1,3 +1,16 @@
 Lexer |DONE|
 Parser |DONE|
 Codegen |DONE|
+LLVM IR
+Variables
+print
+functions
+for
+while
+foreach
+pointers
+structs
+classes
+header files
+namespaces
+package manger
