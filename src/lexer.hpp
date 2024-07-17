@@ -19,8 +19,9 @@ namespace Jam {
             OpenParen,
             CloseParen,
             BinaryOperator,
-            Let,
+            Print,
             Semi,
+            String,
             EOF_ // end of file
         };
 
@@ -39,10 +40,9 @@ namespace Jam {
         }
 
         std::vector<Token> Tokenization(std::string input) {
-            // TODO make this fast with hash map to store keywords or something just to make it fast
-
+            bool dontDelete = false;
             std::unordered_map<std::string, Jam::Lexer::TokenType> keywords = {
-                {"let", Jam::Lexer::Let}
+                {"print", Jam::Lexer::Print}
             };
 
             std::vector<Token> tokens;
@@ -53,6 +53,15 @@ namespace Jam {
                 else if(Jam::Lexer::isOperator(input[0])) tokens.push_back(Jam::Lexer::Token(Jam::Lexer::BinaryOperator, { input[0] }));
                 else if(input[0] == '=') tokens.push_back(Jam::Lexer::Token(Jam::Lexer::Equals, "="));
                 else if(input[0] == ';') tokens.push_back(Jam::Lexer::Token(Jam::Lexer::Semi, ";"));
+                else if(input[0] == '"') {
+                    std::string value = "";
+                    input.erase(0, 1);
+                    while(input[0] != '"') {
+                        value += input[0];
+                        input.erase(0, 1);
+                    }
+                    tokens.push_back(Jam::Lexer::Token(Jam::Lexer::String, value));
+                }
                 else if(!Jam::Lexer::isOperator(input[0])) {
                     // handle muticharaacter tokens
                     // handle whitespace/new lines
@@ -82,13 +91,17 @@ namespace Jam {
                         } else { // if keyword
                             tokens.push_back(Jam::Lexer::Token(keywords.find(identifier)->second, identifier));
                         }
+                        dontDelete = true; // it deletes to the last char in the string and deletes that to deleteing the next char after that so dont delete
                     } else {
                         std::cout << "Unreconized character found in source: " << input[0] << "\n";
                         std::exit(1);
                     }
                 }
 
-                input.erase(0, 1);
+                if(!dontDelete) {
+                    input.erase(0, 1);
+                }
+                dontDelete = false;
             }
 
             // EOF

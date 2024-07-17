@@ -14,6 +14,7 @@
 #include <ast.hpp>
 
 // Orders of Prescidence
+// Statements
 // AdditiveExpr
 // MutiplicaitaveExpr
 // PrimaryExpr
@@ -32,8 +33,36 @@ namespace Jam {
                 }
             }
 
+            void checkIfSemi() {
+                if(this->tokens[0].type != Jam::Lexer::TokenType::Semi)
+                    Jam::Error::CallError("Expected semicolen after statement");
+            }
+
             // dont have any statements to parse right now...
             std::unique_ptr<Jam::Ast::Stmt> ParseStmt() {
+                switch(this->tokens[0].type) {
+                    case Jam::Lexer::TokenType::Print: {
+                        this->tokens.erase(this->tokens.begin()); // remove print
+
+                        if(this->tokens[0].type != Jam::Lexer::TokenType::OpenParen)
+                            Jam::Error::CallError("Expected ( in print statement");
+                        this->tokens.erase(this->tokens.begin()); // remove (
+
+                        if(this->tokens[0].type != Jam::Lexer::TokenType::String)
+                            Jam::Error::CallError("Expected string in print statement");
+                        std::string value = this->tokens[0].value;
+                        this->tokens.erase(this->tokens.begin()); // remove value
+
+                        if(this->tokens[0].type != Jam::Lexer::TokenType::CloseParen)
+                            Jam::Error::CallError("Expected ) in print statement");
+                        this->tokens.erase(this->tokens.begin()); // remove )
+
+                        checkIfSemi();
+                        this->tokens.erase(this->tokens.begin()); // remove ;
+                        return std::make_unique<Jam::Ast::PrintStmt>(value);
+                    }
+                }
+
                 return ParseExpr();
             }
             

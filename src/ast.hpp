@@ -15,7 +15,8 @@ namespace Jam {
             Program,
             NumericLiteral,
             Identifier,
-            BinaryExpr
+            BinaryExpr,
+            PrintStmt
         };
 
         class Stmt {
@@ -45,6 +46,27 @@ namespace Jam {
 
                 virtual std::string CodeGen() {
                     return "";
+                }
+        };
+
+        class PrintStmt : public Stmt {
+            public:
+                PrintStmt(std::string value_) {
+                    this->value = value_;
+                }
+
+                virtual void Print() {
+                    std::cout << "Print\n";
+                    std::cout << "Value: " << this->value << "\n\n";
+                }
+
+                NodeType kind = NodeType::PrintStmt;
+                virtual int kindInt() { return 4; }
+                std::string value;
+
+                virtual std::string CodeGen() {
+                    std::string generated = "std::cout << \"" + value + "\";";
+                    return generated;
                 }
         };
 
