@@ -99,6 +99,10 @@ namespace Jam {
                         Jam::Error::CallError("Unexpected token found during parsing.\n",
                                     "       Type: ", this->tokens[0].type, "\n",
                                     "       Value: ", this->tokens[0].value, "\n");
+                        
+                        // annoying compiler makes warning if not here
+                        std::unique_ptr<Jam::Ast::Stmt> value = nullptr;
+                        return value;
                 };
             }
 
