@@ -1,7 +1,7 @@
 CC = g++
 SRC_PATH = src
-BUILD_PATH = build/
-BUILD_FILE_PATH = $(BUILD_PATH)jam
+BUILD_PATH = ./build
+BUILD_FILE_PATH = $(BUILD_PATH)/jam
 CFLAGS = -Isrc
 
 INPUT = tests/main.ja
@@ -23,6 +23,6 @@ time: mkdir
 	time $(BUILD_FILE_PATH) $(INPUT) $(OUTPUT)
 
 mkdir:
-	if [ -f $(BUILD_PATH) ]; then \
-		mkdir build; \
+	if [ ! -d "$(BUILD_PATH)" ]; then \
+		mkdir $(BUILD_PATH); \
 	fi
