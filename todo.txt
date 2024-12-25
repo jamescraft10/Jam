@@ -1,7 +1,7 @@
 Lexer |DONE|
 Parser |DONE|
 Codegen |DONE|
-LLVM IR
+LLVM IR |working on|
 Variables
 print
 functions
